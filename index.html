@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Form</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.css">
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+  .container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  .password-toggle-btn {
+    position: relative;
+    float: right;
+    top: -33px;
+    right: 10px;
+    cursor: pointer;
+  }
+  input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  input[type="submit"]:hover {
+    background-color: #45a049;
+  }
+  .error {
+    color: red;
+    font-size: 0.8em;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h2 class="mb-4">Login Form</h2>
+  <form id="loginForm" onsubmit="return validateForm()">
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="text" id="email" name="email" class="form-control" required>
+      <div id="emailError" class="error"></div>
+    </div>
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <div style="position:relative;">
+        <input type="password" id="password" name="password" class="form-control" required>
+        <span class="password-toggle-btn" onclick="togglePassword()">Show</span>
+      </div>
+      <div id="passwordError" class="error"></div>
+    </div>
+    <input type="submit" value="Login" class="btn btn-primary">
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+/* Function to validate form inputs */
+function validateForm() {
+  var email = document.getElementById("email").value;
+  var password = document.getElementById("password").value;
+  var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  var passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{8,}$/;
+  
+  var emailValid = emailPattern.test(email);
+  var passwordValid = passwordPattern.test(password);
+  
+  if (!emailValid) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Invalid email format',
+      text: 'Please enter a valid email address.'
+    });
+    return false;
+  }
+  
+  if (!passwordValid) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Invalid password format',
+      text: 'Please make sure your password meets the criteria.'
+    });
+    return false;
+  }
+  
+  Swal.fire({
+    icon: 'success',
+    title: 'Login successful',
+    text: 'You have successfully logged in.'
+  });
+  
+  return true;
+}
+
+/* Function to toggle password visibility */
+function togglePassword() {
+  var passwordInput = document.getElementById("password");
+  var passwordToggleBtn = document.querySelector(".password-toggle-btn");
+  
+  if (passwordInput.type === "password") {
+    passwordInput.type = "text";
+    passwordToggleBtn.textContent = "Hide";
+  } else {
+    passwordInput.type = "password";
+    passwordToggleBtn.textContent = "Show";
+  }
+}
+</script>
+</body>
+</html>
